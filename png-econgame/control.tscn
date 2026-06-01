@@ -2,16 +2,29 @@
 
 [ext_resource type="Script" uid="uid://dkwmgk7tiwjj7" path="res://control.gd" id="1_62e2m"]
 [ext_resource type="Texture2D" uid="uid://bkgc76ofgc0k1" path="res://MacroGame_Design1.png" id="2_qtu10"]
-[ext_resource type="Texture2D" uid="uid://hhsvo6sf26pr" path="res://black_background.jpeg" id="3_qtu10"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ee4bf"]
-texture = ExtResource("3_qtu10")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtu10"]
+bg_color = Color(0.8235294, 0.8235294, 0.8235294, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qtu10"]
-texture = ExtResource("3_qtu10")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62e2m"]
+bg_color = Color(0.8217887, 0.8217887, 0.8217885, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kbped"]
-texture = ExtResource("3_qtu10")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ee4bf"]
+bg_color = Color(0.69916433, 0.5787434, 0.41075382, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kbped"]
+bg_color = Color(0.8235294, 0.8235294, 0.8235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fj5cn"]
+bg_color = Color(0.8235294, 0.8235294, 0.8235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy58a"]
+bg_color = Color(0.8235294, 0.8235294, 0.8235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6a6wx"]
+bg_color = Color(0.8235294, 0.8235294, 0.8235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sky72"]
 
 [node name="Control" type="Control" unique_id=365921239]
 layout_mode = 3
@@ -33,52 +46,86 @@ grow_vertical = 2
 texture = ExtResource("2_qtu10")
 
 [node name="UnemploymentBar" type="ProgressBar" parent="CanvasLayer" unique_id=400536729]
-offset_left = 105.0
+offset_left = 106.0
 offset_top = 42.0
-offset_right = 195.0
+offset_right = 196.0
 offset_bottom = 197.0
-theme_override_styles/fill = SubResource("StyleBoxTexture_ee4bf")
+theme_override_styles/background = SubResource("StyleBoxFlat_qtu10")
 fill_mode = 3
 
 [node name="GDPBar" type="ProgressBar" parent="CanvasLayer" unique_id=1698884290]
 offset_left = 241.0
-offset_top = 43.0
+offset_top = 42.0
 offset_right = 331.0
-offset_bottom = 196.0
-theme_override_styles/fill = SubResource("StyleBoxTexture_qtu10")
+offset_bottom = 197.0
+theme_override_styles/background = SubResource("StyleBoxFlat_62e2m")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ee4bf")
+value = 50.0
 fill_mode = 3
+show_percentage = false
+
+[node name="GDPLabel" type="Label" parent="CanvasLayer/GDPBar" unique_id=1882741243]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="InflationBar" type="ProgressBar" parent="CanvasLayer" unique_id=677154339]
 offset_left = 106.0
-offset_top = 219.0
-offset_right = 198.0
-offset_bottom = 368.0
+offset_top = 218.0
+offset_right = 196.0
+offset_bottom = 369.0
+theme_override_styles/background = SubResource("StyleBoxFlat_kbped")
 fill_mode = 3
 
 [node name="IncomeBar" type="ProgressBar" parent="CanvasLayer" unique_id=1652258100]
-offset_left = 242.0
-offset_top = 217.0
-offset_right = 334.0
-offset_bottom = 366.0
+offset_left = 241.0
+offset_top = 218.0
+offset_right = 334.75024
+offset_bottom = 369.0
+scale = Vector2(0.95999753, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_fj5cn")
 fill_mode = 3
 
 [node name="DiscontentBar" type="ProgressBar" parent="CanvasLayer" unique_id=392107128]
-offset_left = 377.0
-offset_top = 219.0
-offset_right = 469.0
-offset_bottom = 368.0
-scale = Vector2(4.1600013, 0.76)
-theme_override_styles/fill = SubResource("StyleBoxTexture_kbped")
+offset_left = 376.0
+offset_top = 218.0
+offset_right = 794.478
+offset_bottom = 369.3158
+scale = Vector2(0.92000055, 0.76)
+theme_override_styles/background = SubResource("StyleBoxFlat_iy58a")
 
 [node name="ReservesBar" type="ProgressBar" parent="CanvasLayer" unique_id=993538705]
-offset_left = 791.0
-offset_top = 216.99998
-offset_right = 883.0
-offset_bottom = 366.0
-scale = Vector2(2.6400015, 0.76)
+offset_left = 793.0
+offset_top = 218.0
+offset_right = 1079.9077
+offset_bottom = 369.3158
+scale = Vector2(0.8399918, 0.76)
+theme_override_styles/background = SubResource("StyleBoxFlat_6a6wx")
 
 [node name="CrisisAlertPanel" type="Panel" parent="CanvasLayer" unique_id=587816181]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 375.99997
+offset_top = 41.0
+offset_right = 416.10922
+offset_bottom = 81.64658
+scale = Vector2(16.405193, 3.0998914)
+theme_override_styles/panel = SubResource("StyleBoxFlat_sky72")
+
+[node name="Label" type="Label" parent="CanvasLayer/CrisisAlertPanel" unique_id=1216251148]
+layout_mode = 0
+offset_left = 0.73147756
+offset_top = -0.9677758
+offset_right = 724.76215
+offset_bottom = 140.03223
+scale = Vector2(0.052787274, 0.29228106)
+theme_override_font_sizes/font_size = 50
+text = "asdfasdfasdfasdf asd asdf as asd"
+autowrap_mode = 2
 
 [node name="CrisisTimer" type="Timer" parent="." unique_id=1854145404]

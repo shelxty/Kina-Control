@@ -26,7 +26,7 @@ func _process(delta: float):
 		
 func calculate_downtime_economy(): 
 	# the background will have some minor variance to keep the economy ineresting 
-	var R: float = randf_range(-0.15, 0.15)
+	var background_variance: float = randf_range(-0.15, 0.15)
 	
 	"""
 	the MPC of papua new guinae is likely around 0.85 since it's a relatively poor nation. 
@@ -35,15 +35,15 @@ func calculate_downtime_economy():
 	formula for calculating gdp this:
 	"""
 	# these are all the changes (delta) calculated 
-	var delta_gdp = (dial_spending * 1.4) - (dial_taxes * 1) - (dial_ior * 0.8) + R
-	var delta_inflation = (dial_spending * 2) - ((1 - dial_taxes) * 0.8) - (dial_ior * 2.2) + R
+	var delta_gdp = (dial_spending * 1.4) - (dial_taxes * 1) - (dial_ior * 0.8) + background_variance
+	var delta_inflation = (dial_spending * 2) - ((1 - dial_taxes) * 0.8) - (dial_ior * 2.2) + background_variance
 	
 	# and now these are when they're actually applied to the gdp 
 	gdp = clamp(gdp + (delta_gdp * 0.1), -10, 15)
 	inflation_rate = clamp(inflation_rate + (delta_inflation * 0.1), -2, 25)
 	
 	# unemployment however reacts inversely to gdp growth, so it has its own separate part here 
-	var delta_unemployment = -(delta_gdp * 0.3) + (dial_ior * 0.5) + R
+	var delta_unemployment = -(delta_gdp * 0.3) + (dial_ior * 0.5) + background_variance
 	unemployment_rate = clamp(unemployment_rate + (delta_unemployment * 0.05), 1, 15)
 	
 	# the national reserves amount fluctuates based on taxes and govt 

@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://b36pbeupmco7y"]
+
+[ext_resource type="Script" uid="uid://dkwmgk7tiwjj7" path="res://control.gd" id="1_62e2m"]
+[ext_resource type="Texture2D" uid="uid://bkgc76ofgc0k1" path="res://MacroGame_Design1.png" id="2_qtu10"]
+[ext_resource type="Texture2D" uid="uid://hhsvo6sf26pr" path="res://black_background.jpeg" id="3_qtu10"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ee4bf"]
+texture = ExtResource("3_qtu10")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qtu10"]
+texture = ExtResource("3_qtu10")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kbped"]
+texture = ExtResource("3_qtu10")
+
+[node name="Control" type="Control" unique_id=365921239]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_62e2m")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1917378280]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=592041057]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qtu10")
+
+[node name="UnemploymentBar" type="ProgressBar" parent="CanvasLayer" unique_id=400536729]
+offset_left = 105.0
+offset_top = 42.0
+offset_right = 195.0
+offset_bottom = 197.0
+theme_override_styles/fill = SubResource("StyleBoxTexture_ee4bf")
+fill_mode = 3
+
+[node name="GDPBar" type="ProgressBar" parent="CanvasLayer" unique_id=1698884290]
+offset_left = 241.0
+offset_top = 43.0
+offset_right = 331.0
+offset_bottom = 196.0
+theme_override_styles/fill = SubResource("StyleBoxTexture_qtu10")
+fill_mode = 3
+
+[node name="InflationBar" type="ProgressBar" parent="CanvasLayer" unique_id=677154339]
+offset_left = 106.0
+offset_top = 219.0
+offset_right = 198.0
+offset_bottom = 368.0
+fill_mode = 3
+
+[node name="IncomeBar" type="ProgressBar" parent="CanvasLayer" unique_id=1652258100]
+offset_left = 242.0
+offset_top = 217.0
+offset_right = 334.0
+offset_bottom = 366.0
+fill_mode = 3
+
+[node name="DiscontentBar" type="ProgressBar" parent="CanvasLayer" unique_id=392107128]
+offset_left = 377.0
+offset_top = 219.0
+offset_right = 469.0
+offset_bottom = 368.0
+scale = Vector2(4.1600013, 0.76)
+theme_override_styles/fill = SubResource("StyleBoxTexture_kbped")
+
+[node name="ReservesBar" type="ProgressBar" parent="CanvasLayer" unique_id=993538705]
+offset_left = 791.0
+offset_top = 216.99998
+offset_right = 883.0
+offset_bottom = 366.0
+scale = Vector2(2.6400015, 0.76)
+
+[node name="CrisisAlertPanel" type="Panel" parent="CanvasLayer" unique_id=587816181]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CrisisTimer" type="Timer" parent="." unique_id=1854145404]
