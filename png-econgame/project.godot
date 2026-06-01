@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="png_econgame"
-config/features=PackedStringArray("4.6", "Forward Plus")
+run/main_scene="uid://mwor3w82xh32"
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EconomyManager="*uid://bpc5b1xqsl3dy"
 
 [dotnet]
 

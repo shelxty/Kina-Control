@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b22mcypavd2e0"]
+
+[ext_resource type="Script" uid="uid://bigo3xnn3kmy0" path="res://testarduino_ultrasonic.cs" id="1_xlsr4"]
+
+[node name="arduinoattempt" type="Node2D" unique_id=1864190378]
+script = ExtResource("1_xlsr4")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=2029537717]
+offset_right = 1089.0
+offset_bottom = 469.0
+scale = Vector2(1.185, 1.185)
+theme_override_font_sizes/normal_font_size = 50
