@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://mwor3w82xh32"]
+
+[ext_resource type="Script" uid="uid://dkwmgk7tiwjj7" path="res://control.gd" id="1_62e2m"]
+[ext_resource type="Texture2D" uid="uid://bkgc76ofgc0k1" path="res://MacroGame_Design1.png" id="2_qtu10"]
+
+[node name="Control" type="Control" unique_id=365921239]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_62e2m")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1917378280]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=592041057]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qtu10")
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=1979459561]
+offset_left = 107.0
+offset_top = 43.0
+offset_right = 196.0
+offset_bottom = 197.0
