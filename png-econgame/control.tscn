@@ -76,3 +76,9 @@ offset_top = 216.99998
 offset_right = 883.0
 offset_bottom = 366.0
 scale = Vector2(2.6400015, 0.76)
+
+[node name="CrisisAlertPanel" type="Panel" parent="CanvasLayer" unique_id=587816181]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CrisisTimer" type="Timer" parent="." unique_id=1854145404]

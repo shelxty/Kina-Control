@@ -22,3 +22,33 @@ func update_displays():
 	reserves_bar.value = remap(EconomyManager.national_reserves_amount, 0, 250, 0, 100)
 	
 	discontent_bar.value = EconomyManager.public_discontent_levels
+
+# --------------------------
+""" 
+this part is to try and make an array of all the disasters that hit papua new guinea in 2025 and how they'd affect the economy
+"""
+var disasters = [
+	{ 
+		"title": "FATF has been internationally gray-listed",
+		"gdp_modifier": 0.85, 
+		"inflation_modifier": 1.4, 
+		"discontent_modifier": 1.3
+	},
+	
+	{ 
+		"title": "FX Fuel Crisis: PUMA Energy Stoppage", 
+		"gdp_modifier": 0.9, 
+		"inflation_modifier": 1.4, 
+		"discontent_modifier": 1.3
+	},
+	
+	{ 
+		"title": "Kina has devaluated",
+		"inflation_modifier": 1.5, 
+		"income_modifier": 0.85, 
+		"discontent_modifier": 1.4
+	}
+]
+
+var active_crisis: Dictionary = {}
+# --------------------------------------------
