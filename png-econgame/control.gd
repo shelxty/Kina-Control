@@ -1,11 +1,30 @@
 extends Control
 
 @onready var unemployment_bar: ProgressBar = $CanvasLayer/UnemploymentBar
-@onready var gdp_bar: ProgressBar = $CanvasLayer/GDPBar
-@onready var inflation_bar: ProgressBar = $CanvasLayer/InflationBar
+# @onready var gdp_bar: ProgressBar = $CanvasLayer/GDPBar # lowkey realized that the gdp bar being a progress bar would not work since i want it to be a change in GDP (like % change in GDP) which can go into the negatives
+# @onready var inflation_bar: ProgressBar = $CanvasLayer/InflationBar
 @onready var income_bar: ProgressBar = $CanvasLayer/IncomeBar
+@onready var income_label = $CanvasLayer/IncomeBar/IncomeLabel
 @onready var discontent_bar: ProgressBar = $CanvasLayer/DiscontentBar
+
 @onready var reserves_bar: ProgressBar = $CanvasLayer/ReservesBar
+@onready var reserves_label = $CanvasLayer/ReservesBar/ReservesLabel
+
+# i want to make a thing where like--when the gdp goes into the negatives, the bar turns red. when the gdp is in the positives, the bar turns green 
+@onready var gdp_bar = $CanvasLayer/GDPBar
+@onready var gdp_label = $CanvasLayer/GDPBar/GDPLabel
+
+const gdp_positive_color = Color(0.409, 0.657, 0.402, 1.0)
+const gdp_negative_color = Color(0.733, 0.202, 0.128, 1.0)
+const gdp_zero_color = Color(0.478, 0.478, 0.478, 1.0) 
+
+# lowkey wait i want to do the same thing for inflation LOL so i'll just copy paste the gdp stuff
+@onready var inflation_bar = $CanvasLayer/InflationBar
+@onready var inflation_label = $CanvasLayer/InflationBar/InflationLabel
+
+const inflation_positive_color = Color(0.683, 0.468, 0.358, 1.0)
+const inflation_negative_color = Color(0.375, 0.172, 0.156, 1.0)
+const inflation_zero_color = Color(0.478, 0.478, 0.478, 1.0) 
 
 func _ready(): 
 	# connect to the global variable 
@@ -21,8 +40,45 @@ func _ready():
 func _on_data_refreshed(): 
 	update_displays()
 
+func _process(delta: float): # process is a godot function that runs automatically ever yframe (so 60x a second)
+	# delta is the time passed since the alst frame 
+	if EconomyManager: # if the economymanager is loaded and exists (remember its a global script) then update_displays() is called 
+		update_displays()
+
+func update_gdp_display(): 
+	# gdp_bar.value = EconomyManager.gdp
+	var gdp_value: float = EconomyManager.gdp
+	var gdp_stylebox: StyleBoxFlat = gdp_bar.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+	
+	if gdp_value > 0.0: 
+		gdp_label.text = "GDP:     +" + str(snapped(gdp_value, 0.1)) + "%"
+		gdp_stylebox.bg_color = gdp_positive_color
+	if gdp_value < 0.0: 
+		gdp_label.text = "GDP:      " + str(snapped(gdp_value, 0.1)) + "%"
+		gdp_stylebox.bg_color = gdp_negative_color
+		
+	gdp_bar.add_theme_stylebox_override("panel", gdp_stylebox)
+	
+func update_inflation_display(): 
+	# gdp_bar.value = EconomyManager.gdp
+	var inflation_value: float = EconomyManager.inflation_rate
+	var inflation_stylebox: StyleBoxFlat = inflation_bar.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+	
+	if inflation_value > 0.0: 
+		inflation_label.text = "Inflation: +" + str(snapped(inflation_value, 0.1)) + "%"
+		inflation_stylebox.bg_color = inflation_positive_color
+	if inflation_value < 0.0: 
+		inflation_label.text = "Deflation: " + str(snapped(inflation_value, 0.1)) + "%"
+		inflation_stylebox.bg_color = inflation_negative_color
+		
+	inflation_bar.add_theme_stylebox_override("panel", inflation_stylebox)
+
 func update_displays(): 
-	gdp_bar.value = EconomyManager.gdp
+	update_gdp_display()
+	update_inflation_display() 
+	#if 
+	#gdp_stylebox.set()
+	
 	""" 
 	explanation for how remap works because this lowkey confused me 
 	float remap(value: float, istart: float, istop: float, ostart: float, ostop: float) 
@@ -33,10 +89,13 @@ func update_displays():
 	why? because 75 is 75% of the way from 0 to 100, and 0.5 is 75% of the way from -1 to 1
 	so it basically remaps your value (in this case, the value of gdp from economymanager) to a number between 0 and 100 to update the gdp bar
 	"""
-	inflation_bar.value = remap(EconomyManager.inflation_rate, 0, 18, 0, 100)
-	reserves_bar.value = remap(EconomyManager.national_reserves_amount, 0, 250, 0, 100)
-	
+	# inflation_bar.value = remap(EconomyManager.inflation_rate, 0, 18, 0, 100)
+	reserves_bar.value = remap(EconomyManager.national_reserves_amount, 0, 100, 0, 100)
+	reserves_label.text = "$ in Reserves (billions): K" + str(reserves_bar.value)
+	unemployment_bar.value = EconomyManager.unemployment_rate
 	discontent_bar.value = EconomyManager.public_discontent_levels
+	income_bar.value = remap(EconomyManager.median_income, 0, 100000, 0, 100)
+	income_label.text = "Median Income (thousands): K" + str(income_bar.value)
 
 # --------------------------
 """ 
