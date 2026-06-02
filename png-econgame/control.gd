@@ -211,18 +211,36 @@ func clear_active_crisis():
 
 
 func _check_discontent_threshold(updated_value: float) -> void: 
+	""" 
+	so basically when we have a ProgressBar like our public discontent levels progress bar, we can't just do edit.background = color and poof that easy
+	
+	we have to create a whole theme, and then apply that theme to the background and fill of the ProgressBar itself
+	
+	it's a little bit of a hassle but i do want the player to know when the public discontent levels are at a dangerous level so let's update the colors accordingly
+	"""
+	var stylebox_fill: StyleBoxFlat = discontent_bar.get_theme_stylebox("fill") # duplicate teh current styleboxes for our fill and background layers 
+	# so this one is our stylebox_fill theme 
+	var stylebox_background: StyleBoxFlat = discontent_bar.get_theme_stylebox("background") # the "background" part auto fills btw which is cool 
+	
+	
 	if updated_value < 25: # if the discontent value is low, we're in the green
-		discontent_bar.modulate = Color(0.424, 0.55, 0.344, 1.0)
-		# $CanvasLayer/DiscontentBar.set_background = Color(0.274, 0.366, 0.215, 1.0)
+		### discontent_bar.modulate = Color(0.424, 0.55, 0.344, 1.0)
+		stylebox_fill.bg_color = Color(0.424, 0.55, 0.344, 1.0)
+		
+		# discontent_bar = StyleBoxFlat("fill")
 	elif updated_value >= 25 and updated_value < 50: 
-		discontent_bar.modulate = Color(0.618, 0.49, 0.327, 1.0)
+		### discontent_bar.modulate = Color(0.618, 0.49, 0.327, 1.0)
+		stylebox_fill.bg_color = Color(0.618, 0.49, 0.327, 1.0)
 	elif updated_value >= 50 and updated_value < 75: 
-		discontent_bar.modulate = Color("551213ff")
+		### discontent_bar.modulate = Color("551213ff")
+		stylebox_fill.bg_color = Color("551213ff")
 	else : # pass in a value called updated_value into this function and when that value surpasses 75, game over
 		game_over_timer.wait_time = 1 
 		game_over_timer.start()
 		await game_over_timer.timeout # we have a timer here so that if events update to instantly shfit discontent levels to above 75%, it doesn't instantly just game over. the player at least knows what just happened
 		game_over() 
+	
+	discontent_bar.add_theme_stylebox_override("background", stylebox_background)
 
 
 	

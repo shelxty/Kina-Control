@@ -4,13 +4,37 @@
 [ext_resource type="Texture2D" uid="uid://bkgc76ofgc0k1" path="res://MacroGame_Design1.png" id="2_qtu10"]
 [ext_resource type="Texture2D" uid="uid://2nt44qns0ag3" path="res://MacroGame_GameOverScreen.png" id="3_qtu10"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtu10"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy58a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ytqx"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.4)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62e2m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ee4bf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fj5cn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pxugv"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.4)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6a6wx"]
 
@@ -53,7 +77,8 @@ offset_top = 42.0
 offset_right = 196.0
 offset_bottom = 197.0
 theme_override_font_sizes/font_size = 25
-theme_override_styles/background = SubResource("StyleBoxFlat_qtu10")
+theme_override_styles/background = SubResource("StyleBoxFlat_iy58a")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0ytqx")
 max_value = 35.0
 fill_mode = 3
 
@@ -95,6 +120,7 @@ offset_right = 334.75024
 offset_bottom = 369.0
 scale = Vector2(0.95999753, 1)
 theme_override_styles/background = SubResource("StyleBoxFlat_fj5cn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pxugv")
 fill_mode = 3
 show_percentage = false
 
@@ -116,6 +142,7 @@ offset_right = 852.1986
 offset_bottom = 369.3158
 scale = Vector2(0.8084862, 0.76)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/background = SubResource("StyleBoxFlat_iy58a")
 
 [node name="ReservesBar" type="ProgressBar" parent="CanvasLayer" unique_id=993538705]
 offset_left = 793.0
