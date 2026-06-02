@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkwmgk7tiwjj7" path="res://control.gd" id="1_62e2m"]
 [ext_resource type="Texture2D" uid="uid://bkgc76ofgc0k1" path="res://MacroGame_Design1.png" id="2_qtu10"]
+[ext_resource type="Texture2D" uid="uid://2nt44qns0ag3" path="res://MacroGame_GameOverScreen.png" id="3_qtu10"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtu10"]
 
@@ -11,11 +12,21 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fj5cn"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy58a"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6a6wx"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kbped"]
+bg_color = Color(0.5685283, 0.6313858, 0.42442954, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sky72"]
+bg_color = Color(0.87401474, 0.53450567, 0.5008472, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee4bf"]
+atlas = ExtResource("3_qtu10")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kbped"]
+texture = SubResource("AtlasTexture_ee4bf")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qtu10"]
 
 [node name="Control" type="Control" unique_id=365921239]
 layout_mode = 3
@@ -41,6 +52,7 @@ offset_left = 106.0
 offset_top = 42.0
 offset_right = 196.0
 offset_bottom = 197.0
+theme_override_font_sizes/font_size = 25
 theme_override_styles/background = SubResource("StyleBoxFlat_qtu10")
 max_value = 35.0
 fill_mode = 3
@@ -100,10 +112,10 @@ autowrap_mode = 2
 [node name="DiscontentBar" type="ProgressBar" parent="CanvasLayer" unique_id=392107128]
 offset_left = 376.0
 offset_top = 218.0
-offset_right = 794.478
+offset_right = 852.1986
 offset_bottom = 369.3158
-scale = Vector2(0.92000055, 0.76)
-theme_override_styles/background = SubResource("StyleBoxFlat_iy58a")
+scale = Vector2(0.8084862, 0.76)
+theme_override_font_sizes/font_size = 60
 
 [node name="ReservesBar" type="ProgressBar" parent="CanvasLayer" unique_id=993538705]
 offset_left = 793.0
@@ -120,10 +132,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 30.203003
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.9047552, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_kbped")
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="CrisisAlertPanel" type="Panel" parent="CanvasLayer" unique_id=587816181]
 offset_left = 375.99997
@@ -144,4 +161,31 @@ theme_override_font_sizes/font_size = 50
 text = "asdfasdfasdfasdf asd asdf as asd"
 autowrap_mode = 2
 
+[node name="GameOverPanel" type="Panel" parent="CanvasLayer" unique_id=2112865440]
+process_mode = 2
+visible = false
+z_index = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_kbped")
+
+[node name="GameOverButton" type="Button" parent="CanvasLayer/GameOverPanel" unique_id=1621379574]
+z_index = 3
+layout_mode = 0
+offset_left = 339.0
+offset_top = 471.0
+offset_right = 831.0
+offset_bottom = 594.0
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qtu10")
+text = "."
+icon_alignment = 1
+
 [node name="CrisisTimer" type="Timer" parent="." unique_id=1854145404]
+
+[node name="GameOverTimer" type="Timer" parent="." unique_id=356636693]
+one_shot = true

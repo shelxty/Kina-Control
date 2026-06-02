@@ -28,6 +28,7 @@ const inflation_zero_color = Color(0.478, 0.478, 0.478, 1.0)
 
 func _ready(): 
 	# connect to the global variable 
+	game_over_panel.visible = false 
 	EconomyManager.connect("economy_updated", _on_data_refreshed)
 	update_displays()
 	crisis_timer.wait_time = 5
@@ -35,6 +36,9 @@ func _ready():
 	crisis_timer.start() 
 	crisis_timer.connect("timeout", _on_crisis_timer_timeout)
 	crisis_alert_panel.visible = false 
+	# _check_discontent_threshold(discontent_bar.value)
+	game_over_button.pressed.connect(_on_restart_button_pressed)
+	discontent_bar.value_changed.connect(_check_discontent_threshold)
 	
 	
 func _on_data_refreshed(): 
@@ -104,25 +108,47 @@ this part is to try and make an array of all the disasters that hit papua new gu
 var disasters = [
 	{ 
 		"title": "FATF has been internationally gray-listed",
-		"gdp_modifier": 0.85, 
+		"gdp_modifier": 0.7, 
 		"inflation_modifier": 1.4, 
-		"discontent_modifier": 1.3
+		"discontent_modifier": 1.55
 	},
 	
 	{ 
 		"title": "FX Fuel Crisis: PUMA Energy Stoppage", 
-		"gdp_modifier": 0.9, 
+		"gdp_modifier": 0.8, 
 		"inflation_modifier": 1.4, 
-		"discontent_modifier": 1.3
+		"discontent_modifier": 1.5
 	},
 	
 	{ 
 		"title": "Kina has devaluated",
 		"inflation_modifier": 1.5, 
 		"income_modifier": 0.85, 
+		"discontent_modifier": 1.6
+	}, 
+	
+	{ 
+		"title": "ForEx scarcity and shortages",
+		"inflation_modifier": 1.4, 
+		"income_modifier": 0.8, 
+		"discontent_modifier": 1.5
+	}, 
+	
+	{ 
+		"title": "Infrastructure bottlenecks", 
+		# ↑ Spending = ↑ GDP,    ↑ Inflation,     ↓ Reserves
+		"gdp_modifier": 1.3, 
+		"inflation_modifier": 1.45, 
 		"discontent_modifier": 1.4
+	}, 
+	
+	{ 
+		"title": "Corruption causes social unrest", 
+		"income_modifier": 0.75, 
+		"discontent_modifier": 1.5
 	}
 ]
+
 
 var active_crisis: Dictionary = {}
 # --------------------------------------------
@@ -136,7 +162,7 @@ func _on_crisis_timer_timeout():
 	if not crisis_alert_panel.visible: 
 		trigger_random_crisis() 
 	else: 
-		pass 
+		clear_active_crisis() 
 		
 func trigger_random_crisis(): 
 	active_crisis = disasters[randi() % disasters.size()] # pick a random disaster from the array of disasters 
@@ -160,7 +186,7 @@ func trigger_random_crisis():
 	if active_crisis.has("discontent_modifier"): 
 		EconomyManager.public_discontent_levels = clamp(EconomyManager.public_discontent_levels * active_crisis["discontent_modifier"], 0, 100)
 	
-	crisis_timer.wait_time = 5 
+	crisis_timer.wait_time = 10 
 	crisis_timer.start() 
 	
 func clear_active_crisis(): 
@@ -170,3 +196,51 @@ func clear_active_crisis():
 	# queue up the next background countdown of 10 seconds 
 	crisis_timer.wait_time = 5 
 	crisis_timer.start() 
+
+
+# ------------------------------
+# ----------------------------------------
+# the game over screen part is right here 
+#@onready var game_over_panel: Panel = $CanvasLayer/GameOverPanel
+#@onready var game_over_label: Label = $CanvasLayer/GameOverPanel/VBoxContainer/GameOverLabel
+#@onready var game_over_button: Button = $CanvasLayer/GameOverPanel/VBoxContainer/GameOverButton
+@onready var game_over_panel: Panel = $CanvasLayer/GameOverPanel
+@onready var game_over_button: Button = $CanvasLayer/GameOverPanel/GameOverButton
+@onready var game_over_timer: Timer = $GameOverTimer
+
+
+
+func _check_discontent_threshold(updated_value: float) -> void: 
+	if updated_value < 25: # if the discontent value is low, we're in the green
+		discontent_bar.modulate = Color(0.424, 0.55, 0.344, 1.0)
+		# $CanvasLayer/DiscontentBar.set_background = Color(0.274, 0.366, 0.215, 1.0)
+	elif updated_value >= 25 and updated_value < 50: 
+		discontent_bar.modulate = Color(0.618, 0.49, 0.327, 1.0)
+	elif updated_value >= 50 and updated_value < 75: 
+		discontent_bar.modulate = Color("551213ff")
+	else : # pass in a value called updated_value into this function and when that value surpasses 75, game over
+		game_over_timer.wait_time = 1 
+		game_over_timer.start()
+		await game_over_timer.timeout # we have a timer here so that if events update to instantly shfit discontent levels to above 75%, it doesn't instantly just game over. the player at least knows what just happened
+		game_over() 
+
+
+	
+func game_over() -> void: 
+	game_over_panel.visible = true 
+	get_tree().paused = true 
+
+func _on_restart_button_pressed() -> void: 
+	get_tree().paused = false 
+	_reset_economy_data()
+	get_tree().reload_current_scene()
+	
+	
+func _reset_economy_data() -> void: 
+	if EconomyManager: # if economymanager exists and is working...
+		EconomyManager.gdp = 4.7 
+		EconomyManager.inflation_rate = 4.1 
+		EconomyManager.unemployment_rate = 2.6
+		EconomyManager.national_reserves_amount = 3
+		EconomyManager.median_income = 9000
+		EconomyManager.public_discontent_levels = 20
