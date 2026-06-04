@@ -210,7 +210,6 @@ offset_bottom = 594.0
 size_flags_horizontal = 4
 size_flags_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qtu10")
-text = "."
 icon_alignment = 1
 
 [node name="CrisisTimer" type="Timer" parent="." unique_id=1854145404]
