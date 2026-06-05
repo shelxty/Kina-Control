@@ -2,16 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdbid42gxhi4e"
-path="res://.godot/imported/ProgressTextureDial.png-726090cd3ecf8872147466b5ff4265a1.ctex"
-metadata={
-"vram_texture": false
-}
+uid="uid://b4y5yi312dryh"
+valid=false
 
 [deps]
 
 source_file="res://ProgressTextureDial.png"
-dest_files=["res://.godot/imported/ProgressTextureDial.png-726090cd3ecf8872147466b5ff4265a1.ctex"]
 
 [params]
 

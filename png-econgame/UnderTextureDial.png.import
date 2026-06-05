@@ -2,16 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkqkrc8bd866g"
-path="res://.godot/imported/UnderTextureDial.png-f18a4294c4a2e17d1fb74d3e0d1c75c7.ctex"
-metadata={
-"vram_texture": false
-}
+uid="uid://clomu41bv22s8"
+valid=false
 
 [deps]
 
 source_file="res://UnderTextureDial.png"
-dest_files=["res://.godot/imported/UnderTextureDial.png-f18a4294c4a2e17d1fb74d3e0d1c75c7.ctex"]
 
 [params]
 

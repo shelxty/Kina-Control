@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://bkgc76ofgc0k1" path="res://MacroGame_Design1.png" id="2_qtu10"]
 [ext_resource type="Texture2D" uid="uid://2nt44qns0ag3" path="res://MacroGame_GameOverScreen.png" id="3_qtu10"]
 [ext_resource type="AudioStream" uid="uid://dogpwe34ivxyw" path="res://2026-06-03 08-47-52.mp3" id="4_ee4bf"]
-[ext_resource type="Texture2D" uid="uid://bkqkrc8bd866g" path="res://UnderTextureDial.png" id="4_iy58a"]
-[ext_resource type="Texture2D" uid="uid://bdbid42gxhi4e" path="res://ProgressTextureDial.png" id="5_6a6wx"]
-[ext_resource type="Script" uid="uid://b4haeasx3wd8u" path="res://govt_spending_dial.gd" id="6_sky72"]
+[ext_resource type="Texture2D" uid="uid://clomu41bv22s8" path="res://UnderTextureDial.png" id="4_iy58a"]
+[ext_resource type="Texture2D" uid="uid://b4y5yi312dryh" path="res://ProgressTextureDial.png" id="5_6a6wx"]
+[ext_resource type="Script" path="res://govt_spending_dial.gd" id="6_sky72"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy58a"]
 
