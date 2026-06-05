@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 EconomyManager="*uid://bpc5b1xqsl3dy"
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
 [dotnet]
 
 project/assembly_name="png_econgame"
