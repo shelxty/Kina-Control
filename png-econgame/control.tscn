@@ -274,15 +274,18 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="TimeSurvivedLabel" type="Label" parent="CanvasLayer" unique_id=120128331]
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
+z_index = 90
+z_as_relative = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -147.0
+offset_right = 147.0
+offset_bottom = 49.0
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 35
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
 text = "You survived for: "
 horizontal_alignment = 1
 
@@ -290,6 +293,8 @@ horizontal_alignment = 1
 
 [node name="GameOverTimer" type="Timer" parent="." unique_id=356636693]
 one_shot = true
+autostart = true
+ignore_time_scale = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=833044896]
 stream = ExtResource("4_ee4bf")

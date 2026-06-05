@@ -29,7 +29,8 @@ const inflation_zero_color = Color(0.478, 0.478, 0.478, 1.0)
 func _ready(): 
 	# connect to the global variable 
 	game_over_panel.visible = false 
-	time_survived_label.visible = false 
+	timer_active = true 
+	time_survived_label.visible = true 
 	EconomyManager.connect("economy_updated", _on_data_refreshed)
 	govt_spending_dial.dial_released.connect(_on_policy_dial_changed)
 	taxes_dial.dial_released.connect(_on_policy_dial_changed)
@@ -52,20 +53,24 @@ func _process(delta: float): # process is a godot function that runs automatical
 	# delta is the time passed since the alst frame 
 	if EconomyManager: # if the economymanager is loaded and exists (remember its a global script) then update_displays() is called 
 		update_displays()
-	if game_over_panel.visible == false: 
-		time_elapsed += delta
+	if timer_active: 
+		survival_time += delta 
+		$CanvasLayer/TimeSurvivedLabel.text = "Survived: " + str(int(survival_time)) + "s"
 
 # --------------
 # game over and time elapsed part: 
 @onready var time_survived_label: Label = $CanvasLayer/TimeSurvivedLabel
 
-var time_elapsed: float = 0
+#func set_survival_time(total_seconds: float) -> void:
+	#var minutes: int = int(total_seconds) / 60
+	#var seconds: int = int(total_seconds) % 60
+	#time_survived_label.text = "YOU SURVIVED FOR\n%02d:%02d" % [minutes, seconds] 
 
-func set_survival_time(total_seconds: float) -> void:
-	var minutes: int = int(total_seconds) / 60
-	var seconds: int = int(total_seconds) % 60
-	time_survived_label.text = "YOU SURVIVED FOR\n%02d:%02d" % [minutes, seconds] 
+var survival_time = 0 
+var timer_active = false 
 
+#func survival_timer(): 
+	#game_over_timer.start() 
 
 # ---------------
 
@@ -268,6 +273,7 @@ func _check_discontent_threshold(updated_value: float) -> void:
 func game_over() -> void: 
 	game_over_panel.visible = true 
 	get_tree().paused = true 
+	
 	time_survived_label.visible = true 
 	
 
