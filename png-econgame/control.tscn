@@ -146,6 +146,7 @@ offset_bottom = 369.3158
 scale = Vector2(0.8084862, 0.76)
 theme_override_font_sizes/font_size = 60
 theme_override_styles/background = SubResource("StyleBoxFlat_iy58a")
+value = 10.0
 
 [node name="ReservesBar" type="ProgressBar" parent="CanvasLayer" unique_id=993538705]
 offset_left = 793.0

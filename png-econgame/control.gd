@@ -209,7 +209,7 @@ func trigger_random_crisis():
 		EconomyManager.inflation_rate *= active_crisis["inflation_modifier"]
 		
 	if active_crisis.has("discontent_modifier"): 
-		EconomyManager.public_discontent_levels = clamp(EconomyManager.public_discontent_levels * active_crisis["discontent_modifier"], 0, 100)
+		EconomyManager.public_discontent_levels = clamp(EconomyManager.public_discontent_levels * active_crisis["discontent_modifier"], 10, 100)
 	
 	crisis_timer.wait_time = 10 
 	crisis_timer.start() 
@@ -334,6 +334,6 @@ func calculate_policy_impact():
 	EconomyManager.median_income = clamp(EconomyManager.median_income + median_income_delta, 2000, 25000)
 	
 	var discontent_delta: float = (EconomyManager.inflation_rate * 0.6) + (EconomyManager.unemployment_rate * 1.4) + (normalized_taxes * 12) - (EconomyManager.gdp * 0.5) - 20
-	EconomyManager.public_discontent_levels = clamp(EconomyManager.public_discontent_levels + discontent_delta * 0.2, 0, 100)
+	EconomyManager.public_discontent_levels = clamp(EconomyManager.public_discontent_levels + discontent_delta * 0.2, 10, 100)
 	
 	update_displays()
