@@ -29,7 +29,11 @@ const inflation_zero_color = Color(0.478, 0.478, 0.478, 1.0)
 func _ready(): 
 	# connect to the global variable 
 	game_over_panel.visible = false 
+	time_survived_label.visible = false 
 	EconomyManager.connect("economy_updated", _on_data_refreshed)
+	govt_spending_dial.dial_released.connect(_on_policy_dial_changed)
+	taxes_dial.dial_released.connect(_on_policy_dial_changed)
+	ior_dial.dial_released.connect(_on_policy_dial_changed)
 	update_displays()
 	crisis_timer.wait_time = 5
 	crisis_timer.one_shot = true 
@@ -48,6 +52,22 @@ func _process(delta: float): # process is a godot function that runs automatical
 	# delta is the time passed since the alst frame 
 	if EconomyManager: # if the economymanager is loaded and exists (remember its a global script) then update_displays() is called 
 		update_displays()
+	if game_over_panel.visible == false: 
+		time_elapsed += delta
+
+# --------------
+# game over and time elapsed part: 
+@onready var time_survived_label: Label = $CanvasLayer/TimeSurvivedLabel
+
+var time_elapsed: float = 0
+
+func set_survival_time(total_seconds: float) -> void:
+	var minutes: int = int(total_seconds) / 60
+	var seconds: int = int(total_seconds) % 60
+	time_survived_label.text = "YOU SURVIVED FOR\n%02d:%02d" % [minutes, seconds] 
+
+
+# ---------------
 
 func update_gdp_display(): 
 	# gdp_bar.value = EconomyManager.gdp
@@ -108,30 +128,30 @@ this part is to try and make an array of all the disasters that hit papua new gu
 var disasters = [
 	{ 
 		"title": "FATF has been internationally gray-listed",
-		"gdp_modifier": 0.7, 
-		"inflation_modifier": 1.4, 
-		"discontent_modifier": 1.55
+		"gdp_modifier": 0.8, 
+		"inflation_modifier": 1.2, 
+		"discontent_modifier": 1.35
 	},
 	
 	{ 
 		"title": "FX Fuel Crisis: PUMA Energy Stoppage", 
-		"gdp_modifier": 0.8, 
-		"inflation_modifier": 1.4, 
-		"discontent_modifier": 1.5
+		"gdp_modifier": 0.6, 
+		"inflation_modifier": 1.5, 
+		"discontent_modifier": 1.2
 	},
 	
 	{ 
 		"title": "Kina has devaluated",
 		"inflation_modifier": 1.5, 
 		"income_modifier": 0.85, 
-		"discontent_modifier": 1.6
+		"discontent_modifier": 1.2
 	}, 
 	
 	{ 
 		"title": "ForEx scarcity and shortages",
 		"inflation_modifier": 1.4, 
 		"income_modifier": 0.8, 
-		"discontent_modifier": 1.5
+		"discontent_modifier": 1.28
 	}, 
 	
 	{ 
@@ -139,13 +159,13 @@ var disasters = [
 		# ↑ Spending = ↑ GDP,    ↑ Inflation,     ↓ Reserves
 		"gdp_modifier": 1.3, 
 		"inflation_modifier": 1.45, 
-		"discontent_modifier": 1.4
+		"discontent_modifier": 1.3
 	}, 
 	
 	{ 
 		"title": "Corruption causes social unrest", 
 		"income_modifier": 0.75, 
-		"discontent_modifier": 1.5
+		"discontent_modifier": 1.8
 	}
 ]
 
@@ -223,15 +243,15 @@ func _check_discontent_threshold(updated_value: float) -> void:
 	var stylebox_background: StyleBoxFlat = discontent_bar.get_theme_stylebox("background") # the "background" part auto fills btw which is cool 
 	
 	
-	if updated_value < 25: # if the discontent value is low, we're in the green
+	if updated_value < 30: # if the discontent value is low, we're in the green
 		### discontent_bar.modulate = Color(0.424, 0.55, 0.344, 1.0)
 		stylebox_fill.bg_color = Color(0.424, 0.55, 0.344, 1.0)
 		
 		# discontent_bar = StyleBoxFlat("fill")
-	elif updated_value >= 25 and updated_value < 50: 
+	elif updated_value >= 30 and updated_value < 60: 
 		### discontent_bar.modulate = Color(0.618, 0.49, 0.327, 1.0)
 		stylebox_fill.bg_color = Color(0.618, 0.49, 0.327, 1.0)
-	elif updated_value >= 50 and updated_value < 75: 
+	elif updated_value >= 60 and updated_value < 90: 
 		### discontent_bar.modulate = Color("551213ff")
 		stylebox_fill.bg_color = Color("551213ff")
 	else : # pass in a value called updated_value into this function and when that value surpasses 75, game over
@@ -241,12 +261,15 @@ func _check_discontent_threshold(updated_value: float) -> void:
 		game_over() 
 	
 	discontent_bar.add_theme_stylebox_override("background", stylebox_background)
+	discontent_bar.add_theme_stylebox_override("fill", stylebox_fill)
 
 
 	
 func game_over() -> void: 
 	game_over_panel.visible = true 
 	get_tree().paused = true 
+	time_survived_label.visible = true 
+	
 
 func _on_restart_button_pressed() -> void: 
 	get_tree().paused = false 
@@ -262,3 +285,49 @@ func _reset_economy_data() -> void:
 		EconomyManager.national_reserves_amount = 3
 		EconomyManager.median_income = 9000
 		EconomyManager.public_discontent_levels = 20
+
+
+# -------------------------------
+# -------------------------------
+# the 3 dial parts 
+@onready var govt_spending_dial: TextureProgressBar = $CanvasLayer/GovtSpendingDial
+@onready var taxes_dial: TextureProgressBar = $CanvasLayer/TaxesDial
+@onready var ior_dial: TextureProgressBar = $CanvasLayer/IORDial
+
+func _on_policy_dial_changed(ignored_value: float): 
+	calculate_policy_impact()
+
+func calculate_policy_impact(): 
+	var normalized_govt_spending: float = govt_spending_dial.value / 100 
+	var normalized_taxes: float = taxes_dial.value / 100 
+	var normalized_ior: float = ior_dial.value / 100 
+	var random_variance: float = randf_range(-0.2, 0.2) # add a slight variance so that the outcome is alwyas slightly different -- non-repetitive
+	
+	# macro equations and stuff -- determining the actual change in gdp, inflation, unemploymen, national reserves, median income, and public discontent
+	"""notes: 
+		↑ GDP = ↓ Unemployment 
+		↑ GDP = ↑ Inflation 
+		↑ Spending = ↑ GDP,    ↑ Inflation,     ↓ Reserves
+		↑ Taxes = ↓ GDP,      ↑ Inflation (because of cost-push inflation),     ↑ Reserves $
+		↑ IOR = ↓ Inflation,      ↓ GDP,      ↑ Unemployment 
+		↑ Inflation = ↓ Income
+	"""
+	var gdp_delta: float = (normalized_govt_spending * 3.5) - (normalized_taxes * 2) - (normalized_ior * 1.5) + random_variance
+	EconomyManager.gdp = clamp(EconomyManager.gdp + gdp_delta, -10, 15)
+	
+	var inflation_delta: float = (normalized_govt_spending * 4) + (normalized_taxes * 1.5) - (normalized_ior * 3) + random_variance
+	EconomyManager.inflation_rate = clamp(EconomyManager.inflation_rate + inflation_delta, -3, 25)
+	
+	var unemployment_delta: float = (-gdp_delta * 0.6) + (inflation_delta * 1.8) + random_variance 
+	EconomyManager.unemployment_rate = clamp(EconomyManager.unemployment_rate + unemployment_delta, 1, 20)
+	
+	var reserves_delta: float = (normalized_taxes * 15) - (normalized_govt_spending * 18) - (normalized_ior * 2) + random_variance
+	EconomyManager.national_reserves_amount = clamp(EconomyManager.national_reserves_amount + reserves_delta, 0, 100)
+	
+	var median_income_delta: float = (normalized_govt_spending * 200) + (gdp_delta * 400) - (normalized_taxes * 500) + (random_variance * 100)
+	EconomyManager.median_income = clamp(EconomyManager.median_income + median_income_delta, 2000, 25000)
+	
+	var discontent_delta: float = (EconomyManager.inflation_rate * 0.6) + (EconomyManager.unemployment_rate * 1.4) + (normalized_taxes * 12) - (EconomyManager.gdp * 0.5) - 20
+	EconomyManager.public_discontent_levels = clamp(EconomyManager.public_discontent_levels + discontent_delta * 0.2, 0, 100)
+	
+	update_displays()
