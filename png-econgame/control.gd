@@ -300,7 +300,7 @@ func _reset_economy_data() -> void:
 @onready var taxes_dial: TextureProgressBar = $CanvasLayer/TaxesDial
 @onready var ior_dial: TextureProgressBar = $CanvasLayer/IORDial
 
-func _on_policy_dial_changed(ignored_value: float): 
+func _on_policy_dial_changed(_ignored_value: float): 
 	calculate_policy_impact()
 
 func calculate_policy_impact(): 
